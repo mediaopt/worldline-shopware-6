@@ -1,3 +1,9 @@
+# 1.8.2
+- Configuration now only contains one save button and redirecting to the "Thank you for your order" page works
+
+# 1.8.1
+- Separated test and live credentials
+  
 # 1.8.0
 - Payment methods logo 
 
@@ -18,10 +24,14 @@
 - Transaction log
 
 # 1.2.0
-- Klarna and Oney payment methods
+- Bugfix payment methods ID
+- Tokenization toggable in the plugin configuration
+- Klarna/Oney made available
 
 # 1.1.0
-- Tokenization
+- Iframe implemented
+- Multitokenization implemented
+- Templates for Hosted Tokenization and Checkout can be adjusted
 
 # 1.0.1
 - Iframe basic flow
