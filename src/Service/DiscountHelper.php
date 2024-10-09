@@ -7,7 +7,7 @@
 
 namespace MoptWorldline\Service;
 
-use MoptWorldline\Adapter\WorldlineSDKAdapter;
+use MoptWorldline\Adapter\SDKAdapter;
 use OnlinePayments\Sdk\Domain\LineItem;
 
 class DiscountHelper
@@ -83,7 +83,7 @@ class DiscountHelper
      */
     private static function generateDiscountedItem(array &$lineItems, object $item, int $quantity, int $discount, string $id): void
     {
-        $discountedItem = WorldlineSDKAdapter::createLineItem
+        $discountedItem = SDKAdapter::createLineItem
         (
             $item->orderLineDetails->productName,
             $item->amountOfMoney->currencyCode,

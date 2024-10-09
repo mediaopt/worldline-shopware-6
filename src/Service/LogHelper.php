@@ -10,22 +10,22 @@ namespace MoptWorldline\Service;
 use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
-use MoptWorldline\Adapter\WorldlineSDKAdapter;
+use MoptWorldline\Adapter\SDKAdapter;
 use MoptWorldline\Bootstrap\Form;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Composer\Package\Archiver\ZipArchiver;
 
 class LogHelper
 {
-    private WorldlineSDKAdapter $adapter;
+    private SDKAdapter $adapter;
     private TranslatorInterface $translator;
 
     private const DEFAULT_LOG_LEVEL = 'INFO';
 
     /**
-     * @param WorldlineSDKAdapter $adapter
+     * @param SDKAdapter $adapter
      */
-    public function __construct(WorldlineSDKAdapter $adapter)
+    public function __construct(SDKAdapter $adapter)
     {
         $this->adapter = $adapter;
     }

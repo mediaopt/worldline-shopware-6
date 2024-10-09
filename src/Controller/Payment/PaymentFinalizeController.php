@@ -8,7 +8,7 @@
 namespace MoptWorldline\Controller\Payment;
 
 use Monolog\Level;
-use MoptWorldline\Adapter\WorldlineSDKAdapter;
+use MoptWorldline\Adapter\SDKAdapter;
 use MoptWorldline\Service\AdminTranslate;
 use MoptWorldline\Service\LogHelper;
 use MoptWorldline\Service\OrderHelper;
@@ -64,8 +64,8 @@ class PaymentFinalizeController extends AbstractController
      * @return RedirectResponse
      */
     #[Route(
-        path: '/worldline/payment/finalize-transaction',
-        name: 'worldline.payment.finalize.transaction',
+        path: '/paymentPlugin/payment/finalize-transaction',
+        name: 'paymentPlugin.payment.finalize.transaction',
         methods: ['GET']
     )]
     public function finalizeTransaction(Request $request, SalesChannelContext $salesChannelContext): RedirectResponse
@@ -122,7 +122,7 @@ class PaymentFinalizeController extends AbstractController
         ]);
 
         $salesChannelId = $salesChannelContext->getSalesChannelId();
-        $adapter = new WorldlineSDKAdapter($this->systemConfigService, $salesChannelId);
+        $adapter = new SDKAdapter($this->systemConfigService, $salesChannelId);
         try {
             $logger = new LogHelper($adapter);
             $logger->log(AdminTranslate::trans($this->translator->getLocale(), 'forwardToPaymentHandler'));

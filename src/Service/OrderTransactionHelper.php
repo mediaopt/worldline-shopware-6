@@ -44,18 +44,18 @@ class OrderTransactionHelper
      * @param OrderTransactionEntity $transaction
      * @return mixed
      */
-    public static function getWorldlinePaymentMethodId(OrderTransactionEntity $transaction): mixed
+    public static function getPluginPaymentMethodId(OrderTransactionEntity $transaction): mixed
     {
         $customFields = $transaction->getPaymentMethod()->getCustomFields();
 
         if (!is_array($customFields)
-            || !array_key_exists(Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID, $customFields)
-            || empty($customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID])
+            || !array_key_exists(Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID, $customFields)
+            || empty($customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID])
         ) {
             return self::getCustomFieldFromTransaction($transaction);
         }
 
-        return $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID];
+        return $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID];
     }
 
     /**
@@ -99,13 +99,13 @@ class OrderTransactionHelper
         }
 
         if (!is_array($customFields)
-            || !array_key_exists(Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID, $customFields)
-            || empty($customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID])
+            || !array_key_exists(Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID, $customFields)
+            || empty($customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID])
         ) {
             LogHelper::addLog(Level::Error, "Can't get payment method ID", $transaction->getPaymentMethod());
             return null;
         }
 
-        return $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID];
+        return $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID];
     }
 }

@@ -54,7 +54,7 @@ class PaymentMethodHelper
             'afterOrderEnabled' => true,
             'active' => $method['active'],
             'customFields' => [
-                Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID => $method['id']
+                Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID => $method['id']
             ],
             'mediaId' => $mediaId
         ];
@@ -151,12 +151,12 @@ class PaymentMethodHelper
 
     /**
      * @param EntityRepository $paymentRepository
-     * @param string $worldlineMethodId
+     * @param string $methodId
      * @return string|null
      */
-    public static function getPaymentMethodId(EntityRepository $paymentRepository, string $worldlineMethodId): ?string
+    public static function getPaymentMethodId(EntityRepository $paymentRepository, string $methodId): ?string
     {
-        return $paymentRepository->searchIds(self::getCriteria($worldlineMethodId), Context::createDefaultContext())->firstId();
+        return $paymentRepository->searchIds(self::getCriteria($methodId), Context::createDefaultContext())->firstId();
     }
 
     /**
@@ -178,7 +178,7 @@ class PaymentMethodHelper
                 ->fetchOne();
         }
 
-        $key = Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID;
+        $key = Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID;
         $qb->select('
                 HEX(pm.id) as internalId,
                 pm.active, HEX(pm.media_id) as mediaId,
@@ -199,10 +199,10 @@ class PaymentMethodHelper
     }
 
     /**
-     * @param string $worldlineMethodId
+     * @param string $methodId
      * @return Criteria
      */
-    private static function getCriteria(string $worldlineMethodId): Criteria
+    private static function getCriteria(string $methodId): Criteria
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('handlerIdentifier', Payment::class))
@@ -211,14 +211,14 @@ class PaymentMethodHelper
                     MultiFilter::CONNECTION_AND,
                     [
                         new EqualsFilter(
-                            \sprintf('customFields.%s', Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID),
-                            $worldlineMethodId
+                            \sprintf('customFields.%s', Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID),
+                            $methodId
                         ),
                         new NotFilter(
                             NotFilter::CONNECTION_AND,
                             [
                                 new EqualsFilter(
-                                    \sprintf('customFields.%s', Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID),
+                                    \sprintf('customFields.%s', Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID),
                                     null
                                 ),
                             ]
@@ -271,7 +271,7 @@ class PaymentMethodHelper
     private static function extractPaymentMethodId(string $str): string
     {
         $decoded = json_decode($str, true);
-        $key = Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID;
+        $key = Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID;
         if (array_key_exists($key, $decoded)) {
             return (string)$decoded[$key];
         }

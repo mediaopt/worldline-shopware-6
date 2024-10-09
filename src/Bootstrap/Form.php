@@ -20,15 +20,15 @@ class Form
     const LIVE_ENDPOINT_FIELD = 'MoptWorldline.config.liveEndpoint';
     const SANDBOX_ENDPOINT_FIELD = 'MoptWorldline.config.sandboxEndpoint';
     const MAIN_RETURN_SERVER_FIELD = 'MoptWorldline.config.mainReturnServerUrl';
-    const MERCHANT_ID_FIELD  = 'MoptWorldline.config.merchantId';
-    const API_KEY_FIELD  = 'MoptWorldline.config.apiKey';
+    const MERCHANT_ID_FIELD = 'MoptWorldline.config.merchantId';
+    const API_KEY_FIELD = 'MoptWorldline.config.apiKey';
     const API_SECRET_FIELD = 'MoptWorldline.config.apiSecret';
-    const WEBHOOK_KEY_FIELD  = 'MoptWorldline.config.webhookKey';
+    const WEBHOOK_KEY_FIELD = 'MoptWorldline.config.webhookKey';
     const WEBHOOK_SECRET_FIELD = 'MoptWorldline.config.webhookSecret';
-    const LIVE_MERCHANT_ID_FIELD  = 'MoptWorldline.config.liveMerchantId';
-    const LIVE_API_KEY_FIELD  = 'MoptWorldline.config.liveApiKey';
+    const LIVE_MERCHANT_ID_FIELD = 'MoptWorldline.config.liveMerchantId';
+    const LIVE_API_KEY_FIELD = 'MoptWorldline.config.liveApiKey';
     const LIVE_API_SECRET_FIELD = 'MoptWorldline.config.liveApiSecret';
-    const LIVE_WEBHOOK_KEY_FIELD  = 'MoptWorldline.config.liveWebhookKey';
+    const LIVE_WEBHOOK_KEY_FIELD = 'MoptWorldline.config.liveWebhookKey';
     const LIVE_WEBHOOK_SECRET_FIELD = 'MoptWorldline.config.liveWebhookSecret';
     const LIVE_MAIN_RETURN_SERVER_FIELD = 'MoptWorldline.config.liveMainReturnServerUrl';
     const LIVE_API_TEST_BUTTON = 'MoptWorldline.config.liveApiTest';
@@ -49,49 +49,49 @@ class Form
     const PARTIAL_OPERATIONS_ENABLED = 'MoptWorldline.config.partialOperationsEnabled';
 
     /** @var string Fieldset name for the plugin custom field */
-    const CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_FIELDSET = 'payment_transaction_fieldset';
+    const CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_FIELDSET = 'payment_transaction_fieldset';
 
     /** @var string Field name for the plugin custom field */
-    const CUSTOM_FIELD_WORLDLINE_PAYMENT_HOSTED_CHECKOUT_ID = 'payment_transaction_id';
-    const CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_STATUS = 'payment_transaction_status';
-    const CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_CAPTURE_AMOUNT = 'payment_transaction_capture_amount';
-    const CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_REFUND_AMOUNT = 'payment_transaction_refund_amount';
-    const CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_LOG = 'payment_transaction_log';
-    const CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_ITEMS_STATUS = 'payment_transaction_items';
-    const CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_READABLE_STATUS = 'payment_transaction_readable_status';
-    const CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_IS_LOCKED = 'payment_transaction_locked';
-    const CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID = 'worldline_payment_method_id';
-    const CUSTOM_FIELD_WORLDLINE_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN = 'worldline_saved_payment_card_token';
-    const CUSTOM_FIELD_WORLDLINE_CUSTOMER_SAVED_PAYMENT_TMP_TOKEN = 'worldline_saved_payment_card_tmp_token';
-    const CUSTOM_FIELD_WORLDLINE_CUSTOMER_ACCOUNT_PAYMENT_CARD_TOKEN = 'worldline_account_payment_card_token';
+    const CUSTOM_FIELD_PLUGIN_PAYMENT_HOSTED_CHECKOUT_ID = 'payment_transaction_id';
+    const CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_STATUS = 'payment_transaction_status';
+    const CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_CAPTURE_AMOUNT = 'payment_transaction_capture_amount';
+    const CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_REFUND_AMOUNT = 'payment_transaction_refund_amount';
+    const CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_LOG = 'payment_transaction_log';
+    const CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_ITEMS_STATUS = 'payment_transaction_items';
+    const CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_READABLE_STATUS = 'payment_transaction_readable_status';
+    const CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_IS_LOCKED = 'payment_transaction_locked';
+    const CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID = 'worldline_payment_method_id';
+    const CUSTOM_FIELD_PLUGIN_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN = 'worldline_saved_payment_card_token';
+    const CUSTOM_FIELD_PLUGIN_CUSTOMER_SAVED_PAYMENT_TMP_TOKEN = 'worldline_saved_payment_card_tmp_token';
+    const CUSTOM_FIELD_PLUGIN_CUSTOMER_ACCOUNT_PAYMENT_CARD_TOKEN = 'worldline_account_payment_card_token';
 
     /** @var string Field name for the cart form */
-    const WORLDLINE_CART_FORM_HOSTED_TOKENIZATION_ID = 'moptWorldlineHostedTokenizationId';
-    const WORLDLINE_CART_FORM_BROWSER_DATA_COLOR_DEPTH = 'moptWorldlineBrowserDataColorDepth';
-    const WORLDLINE_CART_FORM_BROWSER_DATA_JAVA_ENABLED = 'moptWorldlineBrowserDataJavaEnabled';
-    const WORLDLINE_CART_FORM_LOCALE = 'moptWorldlineLocale';
-    const WORLDLINE_CART_FORM_BROWSER_DATA_SCREEN_HEIGHT = 'moptWorldlineBrowserDataScreenHeight';
-    const WORLDLINE_CART_FORM_BROWSER_DATA_SCREEN_WIDTH = 'moptWorldlineBrowserDataScreenWidth';
-    const WORLDLINE_CART_FORM_TIMEZONE_OFFSET_MINUTES = 'moptWorldlineTimezoneOffsetUtcMinutes';
-    const WORLDLINE_CART_FORM_USER_AGENT = 'moptWorldlineUserAgent';
+    const PLUGIN_CART_FORM_HOSTED_TOKENIZATION_ID = 'pluginHostedTokenizationId';
+    const PLUGIN_CART_FORM_BROWSER_DATA_COLOR_DEPTH = 'pluginBrowserDataColorDepth';
+    const PLUGIN_CART_FORM_BROWSER_DATA_JAVA_ENABLED = 'pluginBrowserDataJavaEnabled';
+    const PLUGIN_CART_FORM_LOCALE = 'pluginLocale';
+    const PLUGIN_CART_FORM_BROWSER_DATA_SCREEN_HEIGHT = 'pluginBrowserDataScreenHeight';
+    const PLUGIN_CART_FORM_BROWSER_DATA_SCREEN_WIDTH = 'pluginBrowserDataScreenWidth';
+    const PLUGIN_CART_FORM_TIMEZONE_OFFSET_MINUTES = 'pluginTimezoneOffsetUtcMinutes';
+    const PLUGIN_CART_FORM_USER_AGENT = 'pluginUserAgent';
 
-    const WORLDLINE_CART_FORM_KEYS = [
-        self::WORLDLINE_CART_FORM_HOSTED_TOKENIZATION_ID,
-        self::WORLDLINE_CART_FORM_BROWSER_DATA_COLOR_DEPTH,
-        self::WORLDLINE_CART_FORM_BROWSER_DATA_JAVA_ENABLED,
-        self::WORLDLINE_CART_FORM_LOCALE,
-        self::WORLDLINE_CART_FORM_BROWSER_DATA_SCREEN_HEIGHT,
-        self::WORLDLINE_CART_FORM_BROWSER_DATA_SCREEN_WIDTH,
-        self::WORLDLINE_CART_FORM_TIMEZONE_OFFSET_MINUTES,
-        self::WORLDLINE_CART_FORM_USER_AGENT,
+    const PLUGIN_CART_FORM_KEYS = [
+        self::PLUGIN_CART_FORM_HOSTED_TOKENIZATION_ID,
+        self::PLUGIN_CART_FORM_BROWSER_DATA_COLOR_DEPTH,
+        self::PLUGIN_CART_FORM_BROWSER_DATA_JAVA_ENABLED,
+        self::PLUGIN_CART_FORM_LOCALE,
+        self::PLUGIN_CART_FORM_BROWSER_DATA_SCREEN_HEIGHT,
+        self::PLUGIN_CART_FORM_BROWSER_DATA_SCREEN_WIDTH,
+        self::PLUGIN_CART_FORM_TIMEZONE_OFFSET_MINUTES,
+        self::PLUGIN_CART_FORM_USER_AGENT,
     ];
 
-    const WORLDLINE_CART_FORM_REDIRECT_TOKEN = 'moptWorldlineRedirectToken';
+    const PLUGIN_CART_FORM_REDIRECT_TOKEN = 'moptWorldlineRedirectToken';
 
     /** @var string Field name for the plugin session key */
     const SESSION_OPERATIONS_LOCK = 'order_locked';
-    const SESSION_IFRAME_DATA = 'worldline_iframe_data';
-    const SESSION_SERVER_URL = 'worldline_server_url';
+    const SESSION_IFRAME_DATA = 'paymentPlugin_iframe_data';
+    const SESSION_SERVER_URL = 'paymentPlugin_server_url';
 
     const LOG_DIR_PATH = '/var/log/worldline/';
     const LOG_ARCHIVE_PATH = '/var/log/worldline.zip';

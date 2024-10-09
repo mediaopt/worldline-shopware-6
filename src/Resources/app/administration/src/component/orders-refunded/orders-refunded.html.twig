@@ -30,5 +30,5 @@
         <sw-text-field :value="currencyFilter(totalAmount, order.currency.shortName)" disabled />
     </sw-container>
 
-    <div class="table--no-content" v-if="!hasContent">{{ $tc('worldline.transaction-control.table.empty') }}</div>
+    <div class="table--no-content" v-if="!hasContent">{{ $tc('paymentPlugin.transaction-control.table.empty') }}</div>
 </sw-container>

@@ -11,13 +11,13 @@ class AdminTranslate
 {
     static public function trans($locale, $id)
     {
-        $path = __DIR__ . "/../Resources/snippet/storefront/worldline.$locale.json";
+        $path = __DIR__ . "/../Resources/snippet/storefront/paymentPlugin.$locale.json";
         if (!file_exists($path)) {
             return $id;
         }
 
         //Adding module prefix
-        $id = "worldline.$id";
+        $id = "paymentPlugin.$id";
 
         $transJson = file_get_contents($path);
         $dictionary = json_decode($transJson, true);

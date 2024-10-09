@@ -1,13 +1,13 @@
 <div class="component">
     <div class="headline">
-        <label>{{ $tc('worldline.payment-method-button.headline') }}</label>
+        <label>{{ $tc('paymentPlugin.payment-method-button.headline') }}</label>
     </div>
     <div class="border">
         <div class="subline">
-            <p class="subline">{{ $tc('worldline.payment-method-button.subline') }}</p>
+            <p class="subline">{{ $tc('paymentPlugin.payment-method-button.subline') }}</p>
             <p v-if="paymentMethodData.length > 5" class="select-all">
-                <span @click="selectAllCheckbox(true)">{{ $tc('worldline.payment-method-button.selectAll') }}</span> |
-                <span @click="selectAllCheckbox(false)">{{ $tc('worldline.payment-method-button.deselectAll') }}</span>
+                <span @click="selectAllCheckbox(true)">{{ $tc('paymentPlugin.payment-method-button.selectAll') }}</span> |
+                <span @click="selectAllCheckbox(false)">{{ $tc('paymentPlugin.payment-method-button.deselectAll') }}</span>
             </p>
         </div>
         <div v-if="displayMessage">
@@ -15,7 +15,7 @@
         </div>
         <sw-grid v-else class="payment-method--grid" :table="true" :selectable="false" :allowInlineEdit="false" :items="paymentMethodData">
             <template #columns="{ item }">
-                <sw-grid-column flex="100px" :label="$tc('worldline.payment-method-button.activeLabel')">
+                <sw-grid-column flex="100px" :label="$tc('paymentPlugin.payment-method-button.activeLabel')">
                     <label class="switch">
                         <input @click="selectSingleCheckbox(item.id)"
                                type="checkbox"
@@ -27,7 +27,7 @@
                     </label>
                 </sw-grid-column>
 
-                <sw-grid-column flex="200px" :label="$tc('worldline.payment-method-button.linkLabel')">
+                <sw-grid-column flex="200px" :label="$tc('paymentPlugin.payment-method-button.linkLabel')">
                     <label class="switch">
                         <input @click="selectSingleCheckboxIsLinked(item.id)"
                                type="checkbox"
@@ -39,7 +39,7 @@
                     </label>
                 </sw-grid-column>
 
-                <sw-grid-column flex="1fr" :label="$tc('worldline.payment-method-button.paymentName')">
+                <sw-grid-column flex="1fr" :label="$tc('paymentPlugin.payment-method-button.paymentName')">
                     <div class="payment--method--name">
                         <img :src="item.logo">
                         <div class="payment--method--label">{{ item.label }}</div>

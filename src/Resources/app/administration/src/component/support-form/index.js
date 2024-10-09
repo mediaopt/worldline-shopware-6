@@ -22,7 +22,7 @@ Component.register('support-form', {
             descriptionField: '',
             emailPlaceholder: '',
             createUserFormIsDisabled: true,
-            createUserHelpText: this.$tc('worldline.support-form.user-have-no-rights'),
+            createUserHelpText: this.$tc('paymentPlugin.support-form.user-have-no-rights'),
         };
     },
 
@@ -36,7 +36,7 @@ Component.register('support-form', {
             ).then((res) => {
                 if (res.createUser) {
                     this.createUserFormIsDisabled = false;
-                    this.createUserHelpText = this.$tc('worldline.support-form.create-account-help');
+                    this.createUserHelpText = this.$tc('paymentPlugin.support-form.create-account-help');
                 }
                 this.emailPlaceholder = res.userEmail;
                 this.isLoading = false;
@@ -54,13 +54,13 @@ Component.register('support-form', {
                 if (res.success) {
                     this.isSaveSuccessful = true;
                     this.createNotificationSuccess({
-                        title: this.$tc('worldline.support-form.title'),
-                        message: this.$tc('worldline.support-form.success')
+                        title: this.$tc('paymentPlugin.support-form.title'),
+                        message: this.$tc('paymentPlugin.support-form.success')
                     });
                 } else {
                     this.createNotificationError({
-                        title: this.$tc('worldline.support-form.title'),
-                        message: this.$tc('worldline.support-form.error') + res.message
+                        title: this.$tc('paymentPlugin.support-form.title'),
+                        message: this.$tc('paymentPlugin.support-form.error') + res.message
                     });
                 }
 

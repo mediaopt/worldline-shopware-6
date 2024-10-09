@@ -7,7 +7,7 @@
 
 namespace MoptWorldline\Controller\PaymentMethod;
 
-use MoptWorldline\Adapter\WorldlineSDKAdapter;
+use MoptWorldline\Adapter\SDKAdapter;
 use MoptWorldline\Service\MediaHelper;
 use MoptWorldline\Service\Payment;
 use MoptWorldline\Service\PaymentMethodHelper;
@@ -145,7 +145,7 @@ class PaymentMethodController
             ];
         }
 
-        $adapter = new WorldlineSDKAdapter($this->systemConfigService, $salesChannelId);
+        $adapter = new SDKAdapter($this->systemConfigService, $salesChannelId);
         $adapter->getMerchantClient($credentials);
 
         $paymentProducts = $adapter->getPaymentProducts($countryIso3, $currencyIsoCode);
@@ -220,7 +220,7 @@ class PaymentMethodController
         if (empty($methods)) {
             return;
         }
-        $adapter = new WorldlineSDKAdapter($this->systemConfigService, $salesChannelId);
+        $adapter = new SDKAdapter($this->systemConfigService, $salesChannelId);
         $mediaHelper = new MediaHelper(
             $this->mediaRepository, $this->mediaService, $this->fileSaver, $this->paymentMethodRepository
         );

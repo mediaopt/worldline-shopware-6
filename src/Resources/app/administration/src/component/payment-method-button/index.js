@@ -90,8 +90,8 @@ Component.register('payment-method-button', {
                     this.isSaveSuccessful = true;
                 } else {
                     this.createNotificationError({
-                        title: this.$tc('worldline.payment-method-button.APITitle'),
-                        message: this.$tc('worldline.payment-method-button.errorAPI') + res.message
+                        title: this.$tc('paymentPlugin.payment-method-button.APITitle'),
+                        message: this.$tc('paymentPlugin.payment-method-button.errorAPI') + res.message
                     });
                 }
 
@@ -102,7 +102,7 @@ Component.register('payment-method-button', {
 
         renderPaymentMethods(paymentMethods) {
             if (paymentMethods.length === 0) {
-                this.displayMessage = this.$tc('worldline.payment-method-button.requestEmpty');
+                this.displayMessage = this.$tc('paymentPlugin.payment-method-button.requestEmpty');
             } else {
                 this.displayMessage = null;
                 this.paymentMethodData = [];
@@ -120,21 +120,21 @@ Component.register('payment-method-button', {
         },
 
         getPaymentMethods() {
-            this.displayMessage = this.$tc('worldline.payment-method-button.request');
+            this.displayMessage = this.$tc('paymentPlugin.payment-method-button.request');
             this.isLoading = true;
             this.apiTest.check(this.pluginConfig).then((res) => {//todo  split this
                 if (res.success) {
                     this.renderPaymentMethods(res.paymentMethods);
                 } else {
-                    this.displayMessage = this.$tc('worldline.payment-method-button.error');
+                    this.displayMessage = this.$tc('paymentPlugin.payment-method-button.error');
                     this.createNotificationError({
-                        title: this.$tc('worldline.payment-method-button.title'),
-                        message: this.$tc('worldline.payment-method-button.error') + res.message
+                        title: this.$tc('paymentPlugin.payment-method-button.title'),
+                        message: this.$tc('paymentPlugin.payment-method-button.error') + res.message
                     });
                 }
                 this.isLoading = false;
             }).catch((error) => {
-                this.displayMessage = this.$tc('worldline.payment-method-button.error');
+                this.displayMessage = this.$tc('paymentPlugin.payment-method-button.error');
                 this.isLoading = false;
             });
         }

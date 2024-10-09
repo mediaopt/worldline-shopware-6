@@ -67,7 +67,7 @@ class OverwriteCachedPaymentMethodRoute extends CachedPaymentMethodRoute
      */
     public function load(Request $request, SalesChannelContext $context, Criteria $criteria): PaymentMethodRouteResponse
     {
-        $key = Form::CUSTOM_FIELD_WORLDLINE_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN;
+        $key = Form::CUSTOM_FIELD_PLUGIN_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN;
         $customer = $context->getCustomer();
         if (!is_null($customer)) {
             $fields = $customer->getCustomFields();

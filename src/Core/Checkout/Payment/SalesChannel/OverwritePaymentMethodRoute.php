@@ -88,8 +88,8 @@ class OverwritePaymentMethodRoute extends PaymentMethodRoute
             $translated = $method->getTranslated();
             $customFields = $translated['customFields'];
             if (!empty($customFields)
-                && array_key_exists(Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID, $customFields)
-                && $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID] == Payment::SAVED_CARD_PAYMENT_METHOD_ID
+                && array_key_exists(Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID, $customFields)
+                && $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID] == Payment::SAVED_CARD_PAYMENT_METHOD_ID
             ) {
                 $savedCardMethod = clone $method;
                 $paymentMethods->remove($key);
@@ -135,11 +135,11 @@ class OverwritePaymentMethodRoute extends PaymentMethodRoute
         if (is_null($customer) || !$customerCustomFields = $customer->getCustomFields()) {
             return null;
         }
-        $tokenKey = Form::CUSTOM_FIELD_WORLDLINE_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN;
+        $tokenKey = Form::CUSTOM_FIELD_PLUGIN_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN;
         if (!array_key_exists($tokenKey, $customerCustomFields)) {
             return null;
         }
-        $defaultAccountToken = $this->session->get(Form::CUSTOM_FIELD_WORLDLINE_CUSTOMER_ACCOUNT_PAYMENT_CARD_TOKEN);
+        $defaultAccountToken = $this->session->get(Form::CUSTOM_FIELD_PLUGIN_CUSTOMER_ACCOUNT_PAYMENT_CARD_TOKEN);
         if (!empty($defaultAccountToken)) {
             $savedCards = $this->processDefaultSavedCard($defaultAccountToken, $context);
         } else {
@@ -198,7 +198,7 @@ class OverwritePaymentMethodRoute extends PaymentMethodRoute
     {
         $customer = $context->getCustomer();
         $customFields = $customer->getCustomFields();
-        $tokenKey = Form::CUSTOM_FIELD_WORLDLINE_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN;
+        $tokenKey = Form::CUSTOM_FIELD_PLUGIN_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN;
         foreach ($customFields[$tokenKey] as $cardKey => $savedCard) {
             $customFields[$tokenKey][$cardKey]['default'] = $savedCard['token'] == $token ? 1 : 0;
         }

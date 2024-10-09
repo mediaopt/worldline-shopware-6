@@ -3,10 +3,10 @@ import Plugin from 'src/plugin-system/plugin.class';
 
 export default class WorldlineIframePlugin extends Plugin {
     init() {
-        if (document.getElementById("moptWorldlinePageId") === null) {
+        if (document.getElementById("paymentPluginPageId") === null) {
             return;
         } else {
-            this.page = document.getElementById("moptWorldlinePageId").value;
+            this.page = document.getElementById("paymentPluginPageId").value;
         }
 
         this._client = new HttpClient();
@@ -18,10 +18,11 @@ export default class WorldlineIframePlugin extends Plugin {
                 this._changePaymentForm();
             });
 
-            this.moptWorldlineSalesChannel = document.getElementById("moptWorldlineSalesChannelId");
-            this.moptWorldlineLocaleId = document.getElementById("moptWorldlineLocaleId");
-            this._client.get('/worldline_serverUrl?serverUrl='+document.URL);
-            var showIframe = document.getElementById("moptWorldlineShowIframe");
+            this.paymentPluginSalesChannel = document.getElementById("paymentPluginSalesChannelId");
+            this.paymentPluginLocaleId = document.getElementById("paymentPluginLocaleId");
+            this._client.get('/paymentPlugin_serverUrl?serverUrl='+document.URL);
+            var showIframe = document.getElementById("paymentPluginShowIframe");
+            console.log(showIframe);
             if (showIframe !== null && showIframe.value) {
                 if(this._isRedirectToken() === '1') {
                     this._initRedirectTokenMethod();
@@ -30,30 +31,30 @@ export default class WorldlineIframePlugin extends Plugin {
                 }
             }
             //Get rid of chosen card token
-            this._client.get('/worldline_cardToken?worldline_cardToken=');
+            this._client.get('/paymentPlugin_cardToken?paymentPlugin_cardToken=');
         }
 
         if (this.page === 'account') {
-            this.changeAccountPaymentForm = document.getElementById('moptWorldlinePageId').form;
+            this.changeAccountPaymentForm = document.getElementById('paymentPluginPageId').form;
             this.changeAccountPaymentForm.addEventListener("submit", (event)=>{
                 event.preventDefault();
                 this._changeAccountPaymentForm();
             });
 
             //Get rid of chosen card token
-            this._client.get('/worldline_accountCardToken?worldline_accountCardToken=');
+            this._client.get('/paymentPlugin_accountCardToken?paymentPlugin_accountCardToken=');
         }
     }
 
     _initIframe() {
         this.tokenizationDiv = "div-hosted-tokenization";
         this.savePaymentCardCheckbox = document.getElementById("moptWorldlineSavePaymentCard");
-        this.salesChannelId = this.moptWorldlineSalesChannel.value;
-        this.localeId = this.moptWorldlineLocaleId.value;
+        this.salesChannelId = this.paymentPluginSalesChannel.value;
+        this.localeId = this.paymentPluginLocaleId.value;
         this.confirmForm = document.getElementById("confirmOrderForm");
         var token = this._getCurrentToken();
         this._client.get(
-            '/worldline_iframe?salesChannelId='+this.salesChannelId+'&token='+token+'&localeId='+this.localeId,
+            '/paymentPlugin_iframe?salesChannelId='+this.salesChannelId+'&token='+token+'&localeId='+this.localeId,
             this._setContent.bind(this),
             'application/json',
             true
@@ -80,14 +81,14 @@ export default class WorldlineIframePlugin extends Plugin {
         var storeCard = this.savePaymentCardCheckbox ? this.savePaymentCardCheckbox.checked : false;
         this.tokenizer.submitTokenization({ storePermanently:storeCard }).then((result) => {
             if (result.success) {
-                this._createHiddenInput(this.confirmForm, "moptWorldlineHostedTokenizationId",  result.hostedTokenizationId);
-                this._createHiddenInput(this.confirmForm, "moptWorldlineBrowserDataColorDepth", screen.colorDepth);
-                this._createHiddenInput(this.confirmForm, "moptWorldlineBrowserDataScreenHeight", screen.height);
-                this._createHiddenInput(this.confirmForm, "moptWorldlineBrowserDataScreenWidth", screen.width);
-                this._createHiddenInput(this.confirmForm, "moptWorldlineBrowserDataJavaEnabled", navigator.javaEnabled());
-                this._createHiddenInput(this.confirmForm, "moptWorldlineLocale", this.moptWorldlineLocaleId.value);
-                this._createHiddenInput(this.confirmForm, "moptWorldlineUserAgent", navigator.userAgent);
-                this._createHiddenInput(this.confirmForm, "moptWorldlineTimezoneOffsetUtcMinutes", new Date().getTimezoneOffset());
+                this._createHiddenInput(this.confirmForm, "pluginHostedTokenizationId",  result.hostedTokenizationId);
+                this._createHiddenInput(this.confirmForm, "pluginBrowserDataColorDepth", screen.colorDepth);
+                this._createHiddenInput(this.confirmForm, "pluginBrowserDataScreenHeight", screen.height);
+                this._createHiddenInput(this.confirmForm, "pluginBrowserDataScreenWidth", screen.width);
+                this._createHiddenInput(this.confirmForm, "pluginBrowserDataJavaEnabled", navigator.javaEnabled());
+                this._createHiddenInput(this.confirmForm, "pluginLocale", this.paymentPluginLocaleId.value);
+                this._createHiddenInput(this.confirmForm, "pluginUserAgent", navigator.userAgent);
+                this._createHiddenInput(this.confirmForm, "pluginTimezoneOffsetUtcMinutes", new Date().getTimezoneOffset());
                 this.confirmForm.submit();
             } else {
             }
@@ -111,9 +112,9 @@ export default class WorldlineIframePlugin extends Plugin {
     //Send saved card token if exist
     _changePaymentForm() {
         var token = this._getCurrentToken();
-        this._client.get('/worldline_cardToken?worldline_cardToken='+token);
+        this._client.get('/paymentPlugin_cardToken?paymentPlugin_cardToken='+token);
         var submit = true;
-        var showIframe = document.getElementById("moptWorldlineShowIframe");
+        var showIframe = document.getElementById("paymentPluginShowIframe");
         if (showIframe !== null && showIframe.value) {
             if (this.savePaymentCardCheckbox !== null) {
                 submit = this.savePaymentCardCheckbox.checked ? false : true;
@@ -147,7 +148,7 @@ export default class WorldlineIframePlugin extends Plugin {
         var token = this._getCurrentAccountToken();
 
         this._client.get(
-            '/worldline_accountCardToken?worldline_accountCardToken='+token,
+            '/paymentPlugin_accountCardToken?paymentPluginaccountCardToken='+token,
             this._submit.bind(this),
             'application/json',
             true
@@ -159,7 +160,7 @@ export default class WorldlineIframePlugin extends Plugin {
     }
 
     _getCurrentAccountToken() {
-        var elem = document.getElementById('moptWorldlinePageId').form.querySelector('input:checked');
+        var elem = document.getElementById('paymentPluginPageId').form.querySelector('input:checked');
         var rel =  elem ? elem.attributes['rel'] : "";
         return rel ? rel.value : "";
     }

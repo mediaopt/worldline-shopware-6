@@ -7,7 +7,7 @@
 
 namespace MoptWorldline\Controller\Payment;
 
-use MoptWorldline\Adapter\WorldlineSDKAdapter;
+use MoptWorldline\Adapter\SDKAdapter;
 use MoptWorldline\Bootstrap\Form;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,7 +25,7 @@ class ReturnUrlController extends AbstractController
 
     private Session $session;
 
-    const RETURN_URL_PATH = 'worldline/payment/finalize-transaction';
+    const RETURN_URL_PATH = 'paymentPlugin/payment/finalize-transaction';
     const PAYMENT_PAGES = [
         '/checkout/confirm',
         '/account/order'
@@ -48,8 +48,8 @@ class ReturnUrlController extends AbstractController
      * @throws Exception
      */
     #[Route(
-        path: '/worldline_serverUrl',
-        name: 'worldline.serverUrl',
+        path: '/paymentPlugin_serverUrl',
+        name: 'paymentPlugin.serverUrl',
         defaults: ['XmlHttpRequest' => true],
         methods: ['GET'],
     )]
@@ -77,11 +77,11 @@ class ReturnUrlController extends AbstractController
     }
 
     /**
-     * @param WorldlineSDKAdapter $adapter
+     * @param SDKAdapter $adapter
      * @param bool $isLiveMode
      * @return string
      */
-    public function getReturnUrl(WorldlineSDKAdapter $adapter, bool $isLiveMode): string
+    public function getReturnUrl(SDKAdapter $adapter, bool $isLiveMode): string
     {
         $server = $this->getServerUrl();
         if (empty($server)) {

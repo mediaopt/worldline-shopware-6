@@ -72,7 +72,7 @@ class OrderChangesSubscriber implements EventSubscriberInterface
     {
         return [
             HandlePaymentMethodRouteRequestEvent::class => 'setIframeFields',
-            // 22.03.2023 - should be disabled before Worldline will fix status notifications.
+            // 22.03.2023 - should be disabled before status notifications fix.
             //OrderEvents::ORDER_WRITTEN_EVENT => 'onOrderWritten',
         ];
     }
@@ -85,8 +85,8 @@ class OrderChangesSubscriber implements EventSubscriberInterface
     {
         $iframeData = [];
         $request = $event->getStorefrontRequest()->request;
-        if (!is_null($request->get(Form::WORLDLINE_CART_FORM_HOSTED_TOKENIZATION_ID))) {
-            foreach (Form::WORLDLINE_CART_FORM_KEYS as $key) {
+        if (!is_null($request->get(Form::PLUGIN_CART_FORM_HOSTED_TOKENIZATION_ID))) {
+            foreach (Form::PLUGIN_CART_FORM_KEYS as $key) {
                 $iframeData[$key] = $request->get($key);
                 if (is_null($iframeData[$key])) {
                     return;
@@ -96,7 +96,7 @@ class OrderChangesSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $tokenField = Form::WORLDLINE_CART_FORM_REDIRECT_TOKEN;
+        $tokenField = Form::PLUGIN_CART_FORM_REDIRECT_TOKEN;
         if (!is_null($request->get($tokenField))) {
             $iframeData[$tokenField] = $request->get($tokenField);
             $this->session->set(Form::SESSION_IFRAME_DATA, $iframeData);
@@ -184,7 +184,7 @@ class OrderChangesSubscriber implements EventSubscriberInterface
             case StateMachineTransitionActions::ACTION_CANCEL:
             {
                 Payment::lockOrder($this->requestStack->getSession(), $orderId);
-                $amount = $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_CAPTURE_AMOUNT];
+                $amount = $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_CAPTURE_AMOUNT];
                 if ($amount > 0) {
                     $paymentHandler->cancelPayment($hostedCheckoutId, $amount, []);
                 }
@@ -193,7 +193,7 @@ class OrderChangesSubscriber implements EventSubscriberInterface
             case StateMachineTransitionActions::ACTION_REFUND:
             {
                 Payment::lockOrder($this->requestStack->getSession(), $orderId);
-                $amount = $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_REFUND_AMOUNT];
+                $amount = $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_REFUND_AMOUNT];
                 if ($amount > 0) {
                     $paymentHandler->refundPayment($hostedCheckoutId, $amount, []);
                 }

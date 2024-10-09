@@ -50,7 +50,7 @@ Component.register('mo-orders-refunded', {
         },
 
         unitPriceLabel() {
-            return this.$tc('worldline.transaction-control.table.unitPrice');
+            return this.$tc('paymentPlugin.transaction-control.table.unitPrice');
         },
 
         linePriceLabel() {

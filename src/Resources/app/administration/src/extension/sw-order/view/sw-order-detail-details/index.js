@@ -22,7 +22,7 @@ Component.override('sw-order-detail-details', {
             transactionStatus: false,
             partialOperations: false,
             transactionLogs: '',
-            worldlinePaymentStatus: [],
+            paymentPluginPaymentStatus: [],
             isLoading: false,
             isUnpaidAdminOrder: false,
             adminPayFinishUrl: '',
@@ -91,12 +91,12 @@ Component.override('sw-order-detail-details', {
         },
 
         setInitialTab() {
-            if (this.worldlinePaymentStatus.filter(entry => entry.unprocessed > 0).length === 0 ) {
-                if (this.worldlinePaymentStatus.filter(entry => entry.paid > 0).length > 0 ) {
+            if (this.paymentPluginPaymentStatus.filter(entry => entry.unprocessed > 0).length === 0 ) {
+                if (this.paymentPluginPaymentStatus.filter(entry => entry.paid > 0).length > 0 ) {
                     this.activeTab = 'paid';
-                } else if (this.worldlinePaymentStatus.filter(entry => entry.refunded > 0).length > 0 ) {
+                } else if (this.paymentPluginPaymentStatus.filter(entry => entry.refunded > 0).length > 0 ) {
                     this.activeTab = 'refunded';
-                } else if (this.worldlinePaymentStatus.filter(entry => entry.canceled > 0).length > 0 ) {
+                } else if (this.paymentPluginPaymentStatus.filter(entry => entry.canceled > 0).length > 0 ) {
                     this.activeTab = 'canceled';
                 }
             }
@@ -109,7 +109,7 @@ Component.override('sw-order-detail-details', {
             }
             this.transactionsControl.enableButtons({'transactionId': this.transactionId}).then((res) => {
                 if (res.success) {
-                    this.worldlinePaymentStatus = res.worldlinePaymentStatus;
+                    this.paymentPluginPaymentStatus = res.paymentPluginPaymentStatus;
                     this.transactionLogs = res.log;
                     this.allowedAmounts = res.allowedAmounts;
                     this.lockedButtons = res.worldlineLockButtons;
@@ -118,8 +118,8 @@ Component.override('sw-order-detail-details', {
                     this.partialOperations = res.partialOperationsEnabled;
                 } else {
                     this.createNotificationError({
-                        title: this.$tc('worldline.check-status-button.title'),
-                        message: this.$tc('worldline.check-status-button.error') + res.message
+                        title: this.$tc('paymentPlugin.check-status-button.title'),
+                        message: this.$tc('paymentPlugin.check-status-button.error') + res.message
                     });
                 }
             }).finally(() => {
@@ -177,15 +177,15 @@ Component.override('sw-order-detail-details', {
                 } else {
                     console.error(response);
                     this.createNotificationError({
-                        title: this.$tc('worldline.check-status-button.title'),
-                        message: this.$tc('worldline.transaction-control.buttons.error')
+                        title: this.$tc('paymentPlugin.check-status-button.title'),
+                        message: this.$tc('paymentPlugin.transaction-control.buttons.error')
                     });
                 }
             }).catch((error) => {
                 console.error(error);
                 this.createNotificationError({
-                    title: this.$tc('worldline.check-status-button.title'),
-                    message: this.$tc('worldline.check-status-button.error') + error
+                    title: this.$tc('paymentPlugin.check-status-button.title'),
+                    message: this.$tc('paymentPlugin.check-status-button.error') + error
                 });
             }).finally(() => {
                 this.isLoading = false;

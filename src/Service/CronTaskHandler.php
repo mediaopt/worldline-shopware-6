@@ -7,7 +7,7 @@
 
 namespace MoptWorldline\Service;
 
-use MoptWorldline\Adapter\WorldlineSDKAdapter;
+use MoptWorldline\Adapter\SDKAdapter;
 use MoptWorldline\Bootstrap\Form;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Order\OrderStates;
@@ -85,7 +85,7 @@ class CronTaskHandler extends ScheduledTaskHandler
      */
     private function getOrderList(string $salesChannelId, string $mode): array
     {
-        $adapter = new WorldlineSDKAdapter($this->systemConfigService, $salesChannelId);
+        $adapter = new SDKAdapter($this->systemConfigService, $salesChannelId);
         $connection = Kernel::getConnection();
 
         $qb = $connection->createQueryBuilder();
@@ -168,10 +168,10 @@ class CronTaskHandler extends ScheduledTaskHandler
             return;
         }
         $customFields = json_decode($order['custom_fields'], true);
-        if (!array_key_exists(Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_HOSTED_CHECKOUT_ID, $customFields)) {
+        if (!array_key_exists(Form::CUSTOM_FIELD_PLUGIN_PAYMENT_HOSTED_CHECKOUT_ID, $customFields)) {
             return;
         }
-        $hostedCheckoutId = $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_HOSTED_CHECKOUT_ID];
+        $hostedCheckoutId = $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_HOSTED_CHECKOUT_ID];
 
         $order = OrderHelper::getOrder(
             Context::createDefaultContext(),

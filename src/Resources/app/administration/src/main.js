@@ -15,8 +15,8 @@ import './component/support-form'
 import './extension/sw-order/view/sw-order-detail-details';
 import './extension/sw-settings-payment/page/sw-settings-payment-detail';
 
-import localeDE from '../../../snippet/storefront/worldline.de-DE.json';
-import localeEN from '../../../snippet/storefront/worldline.en-GB.json';
+import localeDE from '../../../snippet/storefront/paymentPlugin.de-DE.json';
+import localeEN from '../../../snippet/storefront/paymentPlugin.en-GB.json';
 
 Shopware.Locale.extend('de-DE', localeDE);
 Shopware.Locale.extend('en-GB', localeEN);

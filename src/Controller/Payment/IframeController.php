@@ -9,7 +9,7 @@ namespace MoptWorldline\Controller\Payment;
 
 use Exception;
 use Monolog\Level;
-use MoptWorldline\Adapter\WorldlineSDKAdapter;
+use MoptWorldline\Adapter\SDKAdapter;
 use MoptWorldline\Bootstrap\Form;
 use MoptWorldline\Service\LogHelper;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
@@ -47,8 +47,8 @@ class IframeController extends AbstractController
      * @throws Exception
      */
     #[Route(
-        path: '/worldline_iframe',
-        name: 'worldline.iframe',
+        path: '/paymentPlugin_iframe',
+        name: 'paymentPlugin.iframe',
         defaults: ['XmlHttpRequest' => true],
         methods: ['GET'],
     )]
@@ -57,7 +57,7 @@ class IframeController extends AbstractController
         $salesChannelId = $request->get('salesChannelId');
         $token = $request->get('token');
         $localeId = $request->get('localeId');
-        $adapter = new WorldlineSDKAdapter($this->systemConfigService, $salesChannelId);
+        $adapter = new SDKAdapter($this->systemConfigService, $salesChannelId);
         $tokenizationUrl = $adapter->createHostedTokenizationUrl($token, $localeId);
 
         return new JsonResponse([
@@ -71,15 +71,15 @@ class IframeController extends AbstractController
      * @throws Exception
      */
     #[Route(
-        path: '/worldline_cardToken',
-        name: 'worldline.cardToken',
+        path: '/paymentPlugin_cardToken',
+        name: 'paymentPlugin.cardToken',
         defaults: ['XmlHttpRequest' => true],
         methods: ['GET'],
     )]
     public function saveCardToken(Request $request): JsonResponse
     {
-        $token = $request->get('worldline_cardToken') ?: null;
-        $this->session->set(Form::CUSTOM_FIELD_WORLDLINE_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN, $token);
+        $token = $request->get('paymentPlugin_cardToken') ?: null;
+        $this->session->set(Form::CUSTOM_FIELD_PLUGIN_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN, $token);
         return new JsonResponse([]);
     }
 
@@ -89,15 +89,15 @@ class IframeController extends AbstractController
      * @throws Exception
      */
     #[Route(
-        path: '/worldline_accountCardToken',
-        name: 'worldline.accountCardToken',
+        path: '/paymentPlugin_accountCardToken',
+        name: 'paymentPlugin.accountCardToken',
         defaults: ['XmlHttpRequest' => true],
         methods: ['GET'],
     )]
     public function saveAccountCardToken(Request $request): JsonResponse
     {
-        $token = $request->get('worldline_accountCardToken') ?: null;
-        $this->session->set(Form::CUSTOM_FIELD_WORLDLINE_CUSTOMER_ACCOUNT_PAYMENT_CARD_TOKEN, $token);
+        $token = $request->get('paymentPlugin_accountCardToken') ?: null;
+        $this->session->set(Form::CUSTOM_FIELD_PLUGIN_CUSTOMER_ACCOUNT_PAYMENT_CARD_TOKEN, $token);
         return new JsonResponse(['success'=>true]);
     }
 
@@ -110,8 +110,8 @@ class IframeController extends AbstractController
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[Route(
-        path: '/worldline/card/delete/{tokenId}',
-        name: 'worldline.card.delete',
+        path: '/paymentPlugin/card/delete/{tokenId}',
+        name: 'paymentPlugin.card.delete',
         options: ['seo' => false],
         defaults: ['_loginRequired' => true],
         methods: ['POST']
@@ -131,7 +131,7 @@ class IframeController extends AbstractController
                     'customFields' => $fields
                 ]
             ], $context->getContext());
-            $adapter = new WorldlineSDKAdapter($this->systemConfigService, $context->getSalesChannelId());
+            $adapter = new SDKAdapter($this->systemConfigService, $context->getSalesChannelId());
             $adapter->deleteToken($tokenId);
         } catch (Exception $exception) {
             $success = false;
@@ -152,7 +152,7 @@ class IframeController extends AbstractController
      */
     private function prepareCustomField(string $tokenId, CustomerEntity $customer)
     {
-        $key = Form::CUSTOM_FIELD_WORLDLINE_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN;
+        $key = Form::CUSTOM_FIELD_PLUGIN_CUSTOMER_SAVED_PAYMENT_CARD_TOKEN;
 
         if (!$customerCustomFields = $customer->getCustomFields()) {
             throw new Exception('No custom fields');

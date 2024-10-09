@@ -59,7 +59,7 @@ class CustomField
         $criteria->addFilter(new EqualsAnyFilter(
             'name',
             [
-                Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_FIELDSET,
+                Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_FIELDSET,
             ]
         ));
 
@@ -75,7 +75,7 @@ class CustomField
     {
         return [
             'id' => Uuid::randomHex(),
-            'name' => Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_FIELDSET,
+            'name' => Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_FIELDSET,
             'config' => [
                 'label' => [
                     'de-DE' => 'Worldline Zahlungstransaktions',
@@ -85,7 +85,7 @@ class CustomField
             'customFields' => [
                 [
                     'id' => Uuid::randomHex(),
-                    'name' => Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_HOSTED_CHECKOUT_ID,
+                    'name' => Form::CUSTOM_FIELD_PLUGIN_PAYMENT_HOSTED_CHECKOUT_ID,
                     'type' => CustomFieldTypes::TEXT,
                     'config' => [
                         'label' => [
@@ -96,7 +96,7 @@ class CustomField
                 ],
                 [
                     'id' => Uuid::randomHex(),
-                    'name' => Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_READABLE_STATUS,
+                    'name' => Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_READABLE_STATUS,
                     'type' => CustomFieldTypes::TEXT,
                     'config' => [
                         'label' => [

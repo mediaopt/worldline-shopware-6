@@ -40,14 +40,14 @@ class OrderHelper
                 MultiFilter::CONNECTION_AND,
                 [
                     new EqualsFilter(
-                        \sprintf('customFields.%s', Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_HOSTED_CHECKOUT_ID),
+                        \sprintf('customFields.%s', Form::CUSTOM_FIELD_PLUGIN_PAYMENT_HOSTED_CHECKOUT_ID),
                         $hostedCheckoutId
                     ),
                     new NotFilter(
                         NotFilter::CONNECTION_AND,
                         [
                             new EqualsFilter(
-                                \sprintf('customFields.%s', Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_HOSTED_CHECKOUT_ID),
+                                \sprintf('customFields.%s', Form::CUSTOM_FIELD_PLUGIN_PAYMENT_HOSTED_CHECKOUT_ID),
                                 null
                             ),
                         ]
@@ -73,8 +73,8 @@ class OrderHelper
      */
     public static function isOrderLocked($customFields): bool
     {
-        if (array_key_exists(Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_IS_LOCKED, $customFields)) {
-            return $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_IS_LOCKED];
+        if (array_key_exists(Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_IS_LOCKED, $customFields)) {
+            return $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_IS_LOCKED];
         }
         return false;
     }

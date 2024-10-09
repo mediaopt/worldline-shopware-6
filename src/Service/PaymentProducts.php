@@ -43,7 +43,7 @@ class PaymentProducts
         771 => 'SEPA Direct Debit',
         56 => 'UPI - UnionPay International',
 
-        // List from Worldline for shortnames
+        // List from for shortnames
         5405 => 'Alipay',
         2 => 'American Express',
         302 => 'Apple Pay',

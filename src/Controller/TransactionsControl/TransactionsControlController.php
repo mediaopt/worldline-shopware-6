@@ -7,7 +7,7 @@
 
 namespace MoptWorldline\Controller\TransactionsControl;
 
-use MoptWorldline\Adapter\WorldlineSDKAdapter;
+use MoptWorldline\Adapter\SDKAdapter;
 use MoptWorldline\Bootstrap\Form;
 use MoptWorldline\Controller\Payment\ReturnUrlController;
 use MoptWorldline\Service\AdminTranslate;
@@ -140,13 +140,13 @@ class TransactionsControlController extends AbstractController
         $transaction = $orderEntity->getTransactions()->last();
         $customFields = $transaction->getPaymentMethod()->getCustomFields();
         $isFullRedirectMethod = false;
-        if (is_array($customFields) && array_key_exists(Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID, $customFields)) {
-            $isFullRedirectMethod = $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_METHOD_ID] == Payment::FULL_REDIRECT_PAYMENT_METHOD_ID;
+        if (is_array($customFields) && array_key_exists(Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID, $customFields)) {
+            $isFullRedirectMethod = $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_METHOD_ID] == Payment::FULL_REDIRECT_PAYMENT_METHOD_ID;
         }
 
         $salesChannelId = $orderEntity->getSalesChannelId();
 
-        $adapter = new WorldlineSDKAdapter($this->systemConfigService, $salesChannelId);
+        $adapter = new SDKAdapter($this->systemConfigService, $salesChannelId);
         $ReturnUrlController = new ReturnUrlController($this->systemConfigService);
         $returnUrl = $ReturnUrlController->getReturnUrl($adapter, $adapter->isLiveMode());
         $apiKey = $orderEntity->getSalesChannel()->getAccessKey();
@@ -172,8 +172,8 @@ class TransactionsControlController extends AbstractController
             $order = OrderHelper::getOrder($context, $this->orderRepository, $hostedCheckoutId);
             $customFields = $order->getCustomFields();
             $log = [];
-            if (array_key_exists(Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_LOG, $customFields)) {
-                foreach ($customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_LOG] as $logId => $logEntity) {
+            if (array_key_exists(Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_LOG, $customFields)) {
+                foreach ($customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_LOG] as $logId => $logEntity) {
                     $date = date('d-m-Y H:i:s', $logEntity['date']);
                     $amount = $logEntity['amount'] / 100;
                     $log[] = "$logId $date $amount {$logEntity['readableStatus']}";
@@ -182,19 +182,19 @@ class TransactionsControlController extends AbstractController
             $log = implode("\r\n", $log);
 
             $itemsStatus = [];
-            if (array_key_exists(Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_ITEMS_STATUS, $customFields)) {
-                foreach ($customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_ITEMS_STATUS] as $itemEntity) {
+            if (array_key_exists(Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_ITEMS_STATUS, $customFields)) {
+                foreach ($customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_ITEMS_STATUS] as $itemEntity) {
                     $itemEntity['unitPrice'] = $itemEntity['unitPrice'] / 100;
                     $itemsStatus[] = $itemEntity;
                 }
             }
             $lockButtons = false;
-            if (array_key_exists(Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_IS_LOCKED, $customFields)) {
-                $lockButtons = $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_IS_LOCKED];
+            if (array_key_exists(Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_IS_LOCKED, $customFields)) {
+                $lockButtons = $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_IS_LOCKED];
             }
             $allowedAmounts = Payment::getAllowed($customFields);
 
-            $adapter = new WorldlineSDKAdapter($this->systemConfigService, $order->getSalesChannelId());
+            $adapter = new SDKAdapter($this->systemConfigService, $order->getSalesChannelId());
             $partialOperationsEnabled = $adapter->getPluginConfig(Form::PARTIAL_OPERATIONS_ENABLED);
         } catch (\Exception $e) {
             return $this->response(false, $e->getMessage());
@@ -204,7 +204,7 @@ class TransactionsControlController extends AbstractController
                 'success' => true,
                 'allowedAmounts' => $allowedAmounts,
                 'log' => $log,
-                'worldlinePaymentStatus' => $itemsStatus,
+                'paymentPluginPaymentStatus' => $itemsStatus,
                 'worldlineLockButtons' => $lockButtons,
                 'partialOperationsEnabled' => $partialOperationsEnabled,
             ]);

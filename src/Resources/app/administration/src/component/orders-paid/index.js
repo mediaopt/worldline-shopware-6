@@ -76,7 +76,7 @@ Component.register('mo-orders-paid', {
         },
 
         unitPriceLabel() {
-            return this.$tc('worldline.transaction-control.table.unitPrice');
+            return this.$tc('paymentPlugin.transaction-control.table.unitPrice');
         },
 
         linePriceLabel() {
@@ -162,8 +162,8 @@ Component.register('mo-orders-paid', {
                         }, 1000);
                     } else {
                         this.createNotificationError({
-                            title: this.$tc('worldline.capture-payment-button.title'),
-                            message: this.$tc('worldline.capture-payment-button.error') + res.message
+                            title: this.$tc('paymentPlugin.capture-payment-button.title'),
+                            message: this.$tc('paymentPlugin.capture-payment-button.error') + res.message
                         });
                     }
                 })

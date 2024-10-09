@@ -8,7 +8,7 @@
 namespace MoptWorldline\Controller\Payment;
 
 use Monolog\Level;
-use MoptWorldline\Adapter\WorldlineSDKAdapter;
+use MoptWorldline\Adapter\SDKAdapter;
 use MoptWorldline\Service\LogHelper;
 use MoptWorldline\Service\OrderHelper;
 use OnlinePayments\Sdk\Webhooks\InMemorySecretKeyStore;
@@ -67,8 +67,8 @@ class PaymentWebhookController extends AbstractController
      * @throws \Exception
      */
     #[Route(
-        path: '/worldline/payment/webhook',
-        name: 'worldline.payment.webhook',
+        path: '/paymentPlugin/payment/webhook',
+        name: 'paymentPlugin.payment.webhook',
         methods: ['POST']
     )]
     public function webhook(Request $request, SalesChannelContext $salesChannelContext): Response
@@ -100,7 +100,7 @@ class PaymentWebhookController extends AbstractController
             $this->stateMachineRegistry
         );
         $logger = new LogHelper(
-            new WorldlineSDKAdapter($this->systemConfigService, $salesChannelContext->getSalesChannelId())
+            new SDKAdapter($this->systemConfigService, $salesChannelContext->getSalesChannelId())
         );
         $logger->paymentLog($order->getOrderNumber(), 'webhook', 0, $request->request->all());
 
@@ -122,7 +122,7 @@ class PaymentWebhookController extends AbstractController
             $headers[$key] = $header[0];
         }
 
-        $adapter = new WorldlineSDKAdapter($this->systemConfigService, $salesChannelId);
+        $adapter = new SDKAdapter($this->systemConfigService, $salesChannelId);
         $keys = new InMemorySecretKeyStore($adapter->getWebhookCredentials());
         $helper = new WebhooksHelper($keys);
 

@@ -15,7 +15,7 @@ class CronTask extends ScheduledTask
 
     public static function getTaskName(): string
     {
-        return 'worldline.cron_task';
+        return 'paymentPlugin.cron_task';
     }
 
     public static function getDefaultInterval(): int

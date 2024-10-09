@@ -42,9 +42,9 @@
                 :processSuccess="transactionSuccess"
                 variant="ghost-danger"
                 @click="refund"
-        >{{ $tc('worldline.refund-payment-button.button') }}</sw-button-process>
+        >{{ $tc('paymentPlugin.refund-payment-button.button') }}</sw-button-process>
 
     </sw-container>
 
-    <div class="table--no-content" v-if="!hasContent">{{ $tc('worldline.transaction-control.table.empty') }}</div>
+    <div class="table--no-content" v-if="!hasContent">{{ $tc('paymentPlugin.transaction-control.table.empty') }}</div>
 </sw-container>

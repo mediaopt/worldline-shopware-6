@@ -198,7 +198,7 @@ class Payment implements AsynchronousPaymentHandlerInterface
     {
         // Method that sends the return URL to the external gateway and gets a redirect URL back
         try {
-            switch (OrderTransactionHelper::getWorldlinePaymentMethodId($transaction->getOrderTransaction())) {
+            switch (OrderTransactionHelper::getPluginPaymentMethodId($transaction->getOrderTransaction())) {
                 case self::IFRAME_PAYMENT_METHOD_ID:
                 case self::SAVED_CARD_PAYMENT_METHOD_ID:
                 {
@@ -234,8 +234,8 @@ class Payment implements AsynchronousPaymentHandlerInterface
     private function getIframeData(RequestDataBag $dataBag)
     {
         $iframeData = [];
-        if (!is_null($dataBag->get(Form::WORLDLINE_CART_FORM_HOSTED_TOKENIZATION_ID))) {
-            foreach (Form::WORLDLINE_CART_FORM_KEYS as $key) {
+        if (!is_null($dataBag->get(Form::PLUGIN_CART_FORM_HOSTED_TOKENIZATION_ID))) {
+            foreach (Form::PLUGIN_CART_FORM_KEYS as $key) {
                 $iframeData[$key] = $dataBag->get($key);
                 if (is_null($iframeData[$key])) {
                     return false;
@@ -244,7 +244,7 @@ class Payment implements AsynchronousPaymentHandlerInterface
             return $iframeData;
         }
 
-        $tokenField = Form::WORLDLINE_CART_FORM_REDIRECT_TOKEN;
+        $tokenField = Form::PLUGIN_CART_FORM_REDIRECT_TOKEN;
         if (!is_null($dataBag->get($tokenField))) {
             $iframeData[$tokenField] = $dataBag->get($tokenField);
             return $iframeData;
@@ -272,9 +272,9 @@ class Payment implements AsynchronousPaymentHandlerInterface
         $transactionId = $transaction->getOrderTransaction()->getId();
         $orderId = $transaction->getOrder()->getId();
         $customFields = $transaction->getOrder()->getCustomFields();
-        if (is_array($customFields) && array_key_exists(Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_STATUS, $customFields)) {
-            $status = (int)$customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_STATUS];
-            $hostedCheckoutId = $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_HOSTED_CHECKOUT_ID];
+        if (is_array($customFields) && array_key_exists(Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_STATUS, $customFields)) {
+            $status = (int)$customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_STATUS];
+            $hostedCheckoutId = $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_HOSTED_CHECKOUT_ID];
 
             //We need to make an additional GET call to get current status
             $handler = $this->getHandler($orderId, $salesChannelContext->getContext());
@@ -333,8 +333,8 @@ class Payment implements AsynchronousPaymentHandlerInterface
         $handler = $this->getHandler($orderId, $context);
 
         try {
-            $worldlinePaymentMethodId = OrderTransactionHelper::getWorldlinePaymentMethodId($transaction->getOrderTransaction());
-            $hostedCheckoutResponse = $handler->createPayment((int)$worldlinePaymentMethodId);
+            $paymentMethodId = OrderTransactionHelper::getPluginPaymentMethodId($transaction->getOrderTransaction());
+            $hostedCheckoutResponse = $handler->createPayment((int)$paymentMethodId);
         } catch (\Exception $e) {
             throw PaymentException::asyncProcessInterrupted(
                 $transactionId,
@@ -364,12 +364,12 @@ class Payment implements AsynchronousPaymentHandlerInterface
         $handler = $this->getHandler($orderId, $context);
 
         try {
-            if (array_key_exists(Form::WORLDLINE_CART_FORM_HOSTED_TOKENIZATION_ID, $iframeData)) {
+            if (array_key_exists(Form::PLUGIN_CART_FORM_HOSTED_TOKENIZATION_ID, $iframeData)) {
                 $link = $handler->createHostedTokenizationPayment($iframeData)->getMerchantAction()->getRedirectData()->getRedirectURL();
             } else {
                 $hostedCheckoutResponse = $handler->createPayment(
                     0,
-                    $iframeData[Form::WORLDLINE_CART_FORM_REDIRECT_TOKEN]
+                    $iframeData[Form::PLUGIN_CART_FORM_REDIRECT_TOKEN]
                 );
                 $link = $hostedCheckoutResponse->getRedirectUrl();
             }
@@ -448,8 +448,8 @@ class Payment implements AsynchronousPaymentHandlerInterface
     public static function getAllowed(array $customFields): array
     {
         return [
-            Payment::CAPTURE_AMOUNT => $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_CAPTURE_AMOUNT] / 100,
-            Payment::REFUND_AMOUNT => $customFields[Form::CUSTOM_FIELD_WORLDLINE_PAYMENT_TRANSACTION_REFUND_AMOUNT] / 100,
+            Payment::CAPTURE_AMOUNT => $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_CAPTURE_AMOUNT] / 100,
+            Payment::REFUND_AMOUNT => $customFields[Form::CUSTOM_FIELD_PLUGIN_PAYMENT_TRANSACTION_REFUND_AMOUNT] / 100,
         ];
     }
 
