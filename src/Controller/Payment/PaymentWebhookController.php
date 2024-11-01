@@ -67,8 +67,8 @@ class PaymentWebhookController extends AbstractController
      * @throws \Exception
      */
     #[Route(
-        path: '/paymentPlugin/payment/webhook',
-        name: 'paymentPlugin.payment.webhook',
+        path: '/worldline/payment/webhook',
+        name: 'worldline.payment.webhook',
         methods: ['POST']
     )]
     public function webhook(Request $request, SalesChannelContext $salesChannelContext): Response

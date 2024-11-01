@@ -1,5 +1,5 @@
 {
-    "worldline": {
+    "paymentPlugin": {
         "api-test-button": {
             "title": "API Test",
             "success": "Verbindung wurde erfolgreich getestet.",
