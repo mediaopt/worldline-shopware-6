@@ -159,6 +159,8 @@ class Payment implements AsynchronousPaymentHandlerInterface
         7  => 'refunded',
         8  => 'refunded',
         85 => 'refunded',
+
+        52 => 'unknown',
     ];
 
     /**

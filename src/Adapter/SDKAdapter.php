@@ -40,6 +40,7 @@ use OnlinePayments\Sdk\Domain\MerchantAction;
 use OnlinePayments\Sdk\Domain\Order;
 use OnlinePayments\Sdk\Domain\OrderLineDetails;
 use OnlinePayments\Sdk\Domain\PaymentDetailsResponse;
+use OnlinePayments\Sdk\Domain\PaymentProduct130SpecificThreeDSecure;
 use OnlinePayments\Sdk\Domain\PaymentProductFilter;
 use OnlinePayments\Sdk\Domain\PaymentProductFiltersHostedCheckout;
 use OnlinePayments\Sdk\Domain\PaymentReferences;
@@ -241,7 +242,7 @@ class SDKAdapter
     }
 
     /**
-     * @param string $paymentProductId
+     * @param int $paymentProductId
      * @param string $currencyISO
      * @param OrderEntity|null $orderEntity
      * @param CardPaymentMethodSpecificInput $cardPaymentMethodSpecificInput
@@ -297,6 +298,19 @@ class SDKAdapter
                 $redirectPaymentMethodSpecificInput->setPaymentOption($this->getPluginConfig(Form::ONEY_PAYMENT_OPTION_FIELD));
                 break;
             }
+            case PaymentProducts::PAYMENT_PRODUCT_PRZELEWY24:
+            {
+                $this->addCustomerEmail($orderEntity, $order);
+                $redirectPaymentMethodSpecificInput = new RedirectPaymentMethodSpecificInput();
+                $redirectPaymentMethodSpecificInput->setPaymentProductId($paymentProductId);
+                $hostedCheckoutSpecificInput = null;
+                $cardPaymentMethodSpecificInput = null;
+                break;
+            }
+            case PaymentProducts::PAYMENT_PRODUCT_CARTE_BANCAIRE:
+            {
+                $this->addCarteBancaireData($orderEntity, $cardPaymentMethodSpecificInput);
+            }
         }
 
         if (isset($redirectPaymentMethodSpecificInput)) {
@@ -342,10 +356,11 @@ class SDKAdapter
     }
 
     /**
-     * @param float $amountTotal
+     * @param int $amountTotal
      * @param string $currencyISO
      * @param array $iframeData
      * @param GetHostedTokenizationResponse $hostedTokenization
+     * @param OrderEntity $orderEntity
      * @return CreatePaymentResponse
      * @throws \Exception
      */
@@ -353,7 +368,8 @@ class SDKAdapter
         int                           $amountTotal,
         string                        $currencyISO,
         array                         $iframeData,
-        GetHostedTokenizationResponse $hostedTokenization
+        GetHostedTokenizationResponse $hostedTokenization,
+        OrderEntity                   $orderEntity
     ): CreatePaymentResponse
     {
         $token = $hostedTokenization->getToken()->getId();
@@ -407,6 +423,10 @@ class SDKAdapter
         $createPaymentRequest = new CreatePaymentRequest();
         $createPaymentRequest->setOrder($order);
         $createPaymentRequest->setCardPaymentMethodSpecificInput($cardPaymentMethodSpecificInput);
+
+        if ($paymentProductId == PaymentProducts::PAYMENT_PRODUCT_CARTE_BANCAIRE) {
+            $this->addCarteBancaireData($orderEntity, $cardPaymentMethodSpecificInput);
+        }
 
         // Get the response for the PaymentsClient
         $paymentsClient = $merchantClient->payments();
@@ -680,6 +700,46 @@ class SDKAdapter
         $hostedCheckoutSpecificInput->setVariant(null);
 
         $cardPaymentMethodSpecificInput = null;
+    }
+
+    /**
+     * @param OrderEntity $orderEntity
+     * @param Order $order
+     * @return void
+     */
+    private function addCustomerEmail(OrderEntity $orderEntity, Order $order): void
+    {
+        $orderCustomer = $orderEntity->getOrderCustomer();
+        $contactDetails = new ContactDetails();
+        $contactDetails->setEmailAddress($orderCustomer->getEmail());
+
+        $customer = new Customer();
+        $customer->setContactDetails($contactDetails);
+
+        $order->setCustomer($customer);
+    }
+
+    /**
+     * @param OrderEntity $orderEntity
+     * @param CardPaymentMethodSpecificInput $cardPaymentMethodSpecificInput
+     * @return void
+     */
+    private function addCarteBancaireData(
+        OrderEntity $orderEntity,
+        CardPaymentMethodSpecificInput &$cardPaymentMethodSpecificInput
+    ): void
+    {
+        $count = 0;
+        foreach ($orderEntity->getLineItems() as $lineItem) {
+            $count += $lineItem->getQuantity();
+        }
+        $useCase = $this->isDirectSales() ? 'single-amount' : 'payment-upon-shipment';
+        $threeDSecure = new PaymentProduct130SpecificThreeDSecure();
+        $threeDSecure->setUsecase($useCase);
+        $threeDSecure->setNumberOfItems(min($count, 99));
+        $cardPaymentMethodSpecificInput->setPaymentProduct130SpecificInput(
+            $threeDSecure
+        );
     }
 
     /**

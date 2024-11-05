@@ -22,6 +22,7 @@ class PaymentProducts
     const PAYMENT_PRODUCT_POSTFINANCE = 3203;
     const PAYMENT_PRODUCT_PRZELEWY24 = 3124;
     const PAYMENT_PRODUCT_BANK_TRANSFER = 5408;
+    const PAYMENT_PRODUCT_CARTE_BANCAIRE = 130;
     const PAYMENT_PRODUCT_NEED_DETAILS = [
         self::PAYMENT_PRODUCT_ONEY_3X_4X,
         self::PAYMENT_PRODUCT_ONEY_FINANCEMENT_LONG,
@@ -43,6 +44,7 @@ class PaymentProducts
         self::PAYMENT_PRODUCT_POSTFINANCE => 'Postfinance Pay',
         self::PAYMENT_PRODUCT_PRZELEWY24 => 'Przelewy24',
         self::PAYMENT_PRODUCT_BANK_TRANSFER => 'Bank Transfer by Worldline',
+        self::PAYMENT_PRODUCT_CARTE_BANCAIRE => 'Carte Bancaire',
         Payment::FULL_REDIRECT_PAYMENT_METHOD_ID => Payment::FULL_REDIRECT_PAYMENT_METHOD_NAME,
         Payment::SAVED_CARD_PAYMENT_METHOD_ID => Payment::SAVED_CARD_PAYMENT_METHOD_NAME,
         Payment::IFRAME_PAYMENT_METHOD_ID => Payment::IFRAME_PAYMENT_METHOD_NAME,
@@ -58,7 +60,6 @@ class PaymentProducts
         302 => 'Apple Pay',
         3012 => 'Bancontact',
         5001 => 'Bizum',
-        130 => 'Carte Bancaire',
         132 => 'Diners Club',
         809 => 'iDEAL',
         3112 => 'Illicado',

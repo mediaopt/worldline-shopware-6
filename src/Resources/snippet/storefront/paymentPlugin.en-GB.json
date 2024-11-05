@@ -86,7 +86,8 @@
             "pendingCapture": "Pending capture",
             "authorizationRequested": "Authorization requested",
             "captureRequested": "Capture requested",
-            "refundRequested": "Refund requested"
+            "refundRequested": "Refund requested",
+            "unknown": "Authorisation not known"
         },
         "payment-method-button": {
             "headline": "Payment Methods",
