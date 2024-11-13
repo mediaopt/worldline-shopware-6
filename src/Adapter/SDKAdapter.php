@@ -41,6 +41,7 @@ use OnlinePayments\Sdk\Domain\Order;
 use OnlinePayments\Sdk\Domain\OrderLineDetails;
 use OnlinePayments\Sdk\Domain\PaymentDetailsResponse;
 use OnlinePayments\Sdk\Domain\PaymentProduct130SpecificThreeDSecure;
+use OnlinePayments\Sdk\Domain\RedirectPaymentProduct5408SpecificInput;
 use OnlinePayments\Sdk\Domain\PaymentProductFilter;
 use OnlinePayments\Sdk\Domain\PaymentProductFiltersHostedCheckout;
 use OnlinePayments\Sdk\Domain\PaymentReferences;
@@ -237,7 +238,7 @@ class SDKAdapter
         $hostedCheckoutRequest->setHostedCheckoutSpecificInput($hostedCheckoutSpecificInput);
         $hostedCheckoutRequest->setCardPaymentMethodSpecificInput($cardPaymentMethodSpecificInput);
         $hostedCheckoutClient = $merchantClient->hostedCheckout();
-
+debug($hostedCheckoutRequest->toJson());
         return $hostedCheckoutClient->createHostedCheckout($hostedCheckoutRequest);
     }
 
@@ -310,6 +311,24 @@ class SDKAdapter
             case PaymentProducts::PAYMENT_PRODUCT_CARTE_BANCAIRE:
             {
                 $this->addCarteBancaireData($orderEntity, $cardPaymentMethodSpecificInput);
+            }
+            case PaymentProducts::PAYMENT_PRODUCT_BANK_TRANSFER:
+            {
+                $instantPayment = $this->getPluginConfig(Form::BANK_TRANSFER_INSTANT_PAYMENT_FIELD);
+
+                $specificInput = new RedirectPaymentProduct5408SpecificInput();
+                $specificInput->setInstantPaymentOnly($instantPayment);
+
+                $redirectionData = new RedirectionData();
+                $redirectionData->setReturnUrl($hostedCheckoutSpecificInput->getReturnUrl());
+
+            //    $hostedCheckoutSpecificInput = null;
+                $cardPaymentMethodSpecificInput = null;
+
+                $redirectPaymentMethodSpecificInput = new RedirectPaymentMethodSpecificInput();
+                $redirectPaymentMethodSpecificInput->setPaymentProductId($paymentProductId);
+                $redirectPaymentMethodSpecificInput->setPaymentProduct5408SpecificInput($specificInput);
+                $redirectPaymentMethodSpecificInput->setRedirectionData($redirectionData);
             }
         }
 

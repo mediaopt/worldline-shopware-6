@@ -188,6 +188,11 @@
             </options>
             <defaultValue>INFO</defaultValue>
         </input-field>
+        <input-field type="bool">
+            <name>bankTransferInstantPayment</name>
+            <defaultValue>false</defaultValue>
+            <label>Bank Transfer instant payment</label>
+        </input-field>
         <component name="support-form">
             <name>supportForm</name>
         </component>
