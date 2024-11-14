@@ -1,3 +1,6 @@
+# 3.2.0
+- New payment methods: Bank Transfer, P24, Twint, Carte Bancaire, PostFinane
+
 # 3.1.1
 - Shopware 6.6.6.0 update
 

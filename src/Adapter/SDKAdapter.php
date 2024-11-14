@@ -238,7 +238,6 @@ class SDKAdapter
         $hostedCheckoutRequest->setHostedCheckoutSpecificInput($hostedCheckoutSpecificInput);
         $hostedCheckoutRequest->setCardPaymentMethodSpecificInput($cardPaymentMethodSpecificInput);
         $hostedCheckoutClient = $merchantClient->hostedCheckout();
-debug($hostedCheckoutRequest->toJson());
         return $hostedCheckoutClient->createHostedCheckout($hostedCheckoutRequest);
     }
 
