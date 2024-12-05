@@ -321,7 +321,6 @@ class SDKAdapter
                 $redirectionData = new RedirectionData();
                 $redirectionData->setReturnUrl($hostedCheckoutSpecificInput->getReturnUrl());
 
-            //    $hostedCheckoutSpecificInput = null;
                 $cardPaymentMethodSpecificInput = null;
 
                 $redirectPaymentMethodSpecificInput = new RedirectPaymentMethodSpecificInput();
