@@ -1,3 +1,6 @@
+# 3.2.2
+- New Visa fields
+ 
 # 3.2.1
 - Shipping cost as separated parameter
 
